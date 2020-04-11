@@ -203,13 +203,16 @@ async function ConvertActualDateWiseData(data) {
     }
   });
   return {
-    dailyConfirmedCases: { "name": "Confirmed cases", "series": dailyConfirmedCasesSeries },
-    dailyRecoveredCases: { "name": "Recovered cases", "series": dailyRecoveredCasesSeries },
-    dailyDeceasedCases: { "name": "Deceased cases", "series": dailyDeceasedCasesSeries },
-    cumlativeConfirmedCases: { "name": "Confirmed cases", "series": cumlativeConfirmedCasesSeries },
-    cumlativeRecoveredCases: { "name": "Recovered cases", "series": cumlativeRecoveredCasesSeries },
-    cumlativeDeceasedCases: { "name": "Deceased cases", "series": cumlativeDeceasedCasesSeries }
-
+    daily : [
+      [{ "name": "Confirmed cases", "series": dailyConfirmedCasesSeries }],
+      [ { "name": "Recovered cases", "series": dailyRecoveredCasesSeries }],
+      [{ "name": "Deceased cases", "series": dailyDeceasedCasesSeries }],
+    ],
+    cumulative : [
+      [{ "name": "Confirmed cases", "series": cumlativeConfirmedCasesSeries }],
+    [{ "name": "Recovered cases", "series": cumlativeRecoveredCasesSeries }],
+    [{ "name": "Deceased cases", "series": cumlativeDeceasedCasesSeries }]
+    ]
   }
 }
 async function ConvertHospitalTestData(data) {
