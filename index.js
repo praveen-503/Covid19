@@ -165,38 +165,37 @@ async function ConvertPredectionData(data) {
 }
 
 async function ConvertActualDateWiseData(data) {
-  var dailyConfirmedCases = [];
-  var dailyRecoveredCases = [];
-  var dailyDeceasedCases = [];
-  var cumlativeConfirmedCases = [];
-  var cumlativeRecoveredCases = [];
-  var cumlativeDeceasedCases = [];
 
+  var dailyConfirmedCasesSeries = [];
+  var dailyRecoveredCasesSeries = [];
+  var dailyDeceasedCasesSeries = [];
+  var cumlativeConfirmedCasesSeries = [];
+  var cumlativeRecoveredCasesSeries = [];
+  var cumlativeDeceasedCasesSeries = [];
 
-  var cummlativeData = []
   await data.forEach(element => {
     if (element[0] != "Date") {
-      dailyConfirmedCases.push({
+      dailyConfirmedCasesSeries.push({
         "name": element[0],
         "value": element[1]
       })
-      dailyRecoveredCases.push({
+      dailyRecoveredCasesSeries.push({
         "name": element[0],
         "value": element[2]
       })
-      dailyDeceasedCases.push({
+      dailyDeceasedCasesSeries.push({
         "name": element[0],
         "value": element[3]
       })
-      cumlativeConfirmedCases.push({
+      cumlativeConfirmedCasesSeries.push({
         "name": element[0],
         "value": element[4]
       })
-      cumlativeRecoveredCases.push({
+      cumlativeRecoveredCasesSeries.push({
         "name": element[0],
         "value": element[5]
       })
-      cumlativeDeceasedCases.push({
+      cumlativeDeceasedCasesSeries.push({
         "name": element[0],
         "value": element[6]
       })
@@ -204,12 +203,13 @@ async function ConvertActualDateWiseData(data) {
     }
   });
   return {
-    dailyConfirmedCases: dailyConfirmedCases,
-    dailyRecoveredCases: dailyRecoveredCases,
-    dailyDeceasedCases: dailyDeceasedCases,
-    cumlativeConfirmedCases: cumlativeConfirmedCases,
-    cumlativeRecoveredCases: cumlativeRecoveredCases,
-    cumlativeDeceasedCases: cumlativeDeceasedCases
+    dailyConfirmedCases: { "name": "Confirmed cases", "series": dailyConfirmedCasesSeries },
+    dailyRecoveredCases: { "name": "Recovered cases", "series": dailyRecoveredCasesSeries },
+    dailyDeceasedCases: { "name": "Deceased cases", "series": dailyDeceasedCasesSeries },
+    cumlativeConfirmedCases: { "name": "Confirmed cases", "series": cumlativeConfirmedCasesSeries },
+    cumlativeRecoveredCases: { "name": "Recovered cases", "series": cumlativeRecoveredCasesSeries },
+    cumlativeDeceasedCases: { "name": "Deceased cases", "series": cumlativeDeceasedCasesSeries }
+
   }
 }
 async function ConvertHospitalTestData(data) {
