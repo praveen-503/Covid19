@@ -1,0 +1,12 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/dist/css/bootstrap.min.css";
+
+.bg-primary {
+  background-color: #13293e!important;
+}
+.bg-success {
+  background-color: #66ba99!important;
+}
+.bg-secondry {
+  background-color: #555656!important;
+}
