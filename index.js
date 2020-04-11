@@ -70,30 +70,97 @@ async function ConvertLatestData(data) {
 }
 
 async function ConvertPredectionData(data) {
-  var predictionData = [];
+  var series1 = [];
+  var series2 = [];
+  var series3 = [];
+  var series4 = [];
+  var hospitalSeries = [];
   await data.forEach(element => {
     if (element[0] != "Country") {
-      predictionData.push(
-        {
-          countryName: element[0],
-          countryCode: element[1],
-          date: element[2],
-          p1: element[3],
-          p2: element[4],
-          p3: element[5],
-          p4: element[6],
-          s1: element[7],
-          s2: element[8],
-          s3: element[9],
-          s4: element[10],
-          h1: element[11],
-          h2: element[12],
-          h3: element[13],
-          h4: element[14],
-        });
+
+      series1.push({
+        "name": element[2],
+        "series": [
+          {
+            "name": "P1",
+            "value": element[3]
+          },
+          {
+            "name": "S1",
+            "value": element[7]
+          }
+        ]
+      });
+      series2.push({
+        "name": element[2],
+        "series": [
+          {
+            "name": "P2",
+            "value": element[4]
+          },
+          {
+            "name": "S2",
+            "value": element[8]
+          }
+        ]
+      });
+      series3.push({
+        "name": element[2],
+        "series": [
+          {
+            "name": "P2",
+            "value": element[5]
+          },
+          {
+            "name": "S2",
+            "value": element[9]
+          }
+        ]
+      });
+      series4.push({
+        "name": element[2],
+        "series": [
+          {
+            "name": "P2",
+            "value": element[6]
+          },
+          {
+            "name": "S2",
+            "value": element[10]
+          }
+        ]
+      });
+      hospitalSeries.push({
+        "name": element[2],
+        "series": [
+          {
+            "name": "H1",
+            "value": element[11]
+          },
+          {
+            "name": "H2",
+            "value": element[12]
+          },
+          {
+            "name": "H3",
+            "value": element[13]
+          },
+          {
+            "name": "H4",
+            "value": element[14]
+          }
+        ]
+      });
+
     }
   });
-  return predictionData
+  return {
+    series1: series1,
+    series2: series2,
+    series3: series3,
+    series4: series4,
+    hospitalSeries: hospitalSeries
+  }
 
 }
 
@@ -145,41 +212,41 @@ async function ConvertActualDateWiseData(data) {
     cumlativeDeceasedCases: cumlativeDeceasedCases
   }
 }
-  async function ConvertHospitalTestData(data) {
-    var hospitalTestData = [];
-    await data.forEach(element => {
-      hospitalTestData.push({ name: element[0], totalCount: element[1] })
-    });
-    return hospitalTestData;
-  }
-
-  async function ConvertStateWiseData(data) {
-    var stateWiseData = [];
-    await data.forEach(element => {
-      if (element[0] != "State") {
-        stateWiseData.push(
-          {
-            state: element[0],
-            confirmed: element[1],
-            active: element[2],
-            recovered: element[3],
-            deceased: element[4]
-          });
-      }
-    });
-    return stateWiseData;
-  }
-
-  app.get('/data', (req, res) => {
-    res.send(data);
+async function ConvertHospitalTestData(data) {
+  var hospitalTestData = [];
+  await data.forEach(element => {
+    hospitalTestData.push({ name: element[0], totalCount: element[1] })
   });
+  return hospitalTestData;
+}
 
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'build',
-      'index.html'));
+async function ConvertStateWiseData(data) {
+  var stateWiseData = [];
+  await data.forEach(element => {
+    if (element[0] != "State") {
+      stateWiseData.push(
+        {
+          state: element[0],
+          confirmed: element[1],
+          active: element[2],
+          recovered: element[3],
+          deceased: element[4]
+        });
+    }
   });
+  return stateWiseData;
+}
+
+app.get('/data', (req, res) => {
+  res.send(data);
+});
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build',
+    'index.html'));
+});
 
 
-  app.listen(port, () => console.log(`Listening on port ${port}`));
+app.listen(port, () => console.log(`Listening on port ${port}`));
 
 
