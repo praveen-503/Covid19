@@ -98,84 +98,88 @@ async function ConvertPredectionData(data) {
 }
 
 async function ConvertActualDateWiseData(data) {
-  var dailyData = [];
+  var dailyConfirmedCases = [];
+  var dailyRecoveredCases = [];
+  var dailyDeceasedCases = [];
+  var cumlativeConfirmedCases = [];
+  var cumlativeRecoveredCases = [];
+  var cumlativeDeceasedCases = [];
+
+
   var cummlativeData = []
   await data.forEach(element => {
     if (element[0] != "Date") {
-      dailyData.push({
+      dailyConfirmedCases.push({
         "name": element[0],
-        "series": [
-          {
-            "name": "Confirmed Cases",
-            "value": element[1]
-          },
-          {
-            "name": "Recovered",
-            "value": element[2]
-          },
-          {
-            "name": "Deceased",
-            "value": element[3]
-          },
-        ]
-      });
-      cummlativeData.push({
+        "value": element[1]
+      })
+      dailyRecoveredCases.push({
         "name": element[0],
-        "series": [
-          {
-            "name": "Confirmed Cases",
-            "value": element[4]
-          },
-          {
-            "name": "Recovered",
-            "value": element[5]
-          },
-          {
-            "name": "Deceased",
-            "value": element[6]
-          },
-        ]
-      });
+        "value": element[2]
+      })
+      dailyDeceasedCases.push({
+        "name": element[0],
+        "value": element[3]
+      })
+      cumlativeConfirmedCases.push({
+        "name": element[0],
+        "value": element[4]
+      })
+      cumlativeRecoveredCases.push({
+        "name": element[0],
+        "value": element[5]
+      })
+      cumlativeDeceasedCases.push({
+        "name": element[0],
+        "value": element[6]
+      })
+
     }
   });
-  return { dailyData: dailyData, cummlativeData: cummlativeData };
+  return {
+    dailyConfirmedCases: dailyConfirmedCases,
+    dailyRecoveredCases: dailyRecoveredCases,
+    dailyDeceasedCases: dailyDeceasedCases,
+    cumlativeConfirmedCases: cumlativeConfirmedCases,
+    cumlativeRecoveredCases: cumlativeRecoveredCases,
+    cumlativeDeceasedCases: cumlativeDeceasedCases
+  }
 }
+  async function ConvertHospitalTestData(data) {
+    var hospitalTestData = [];
+    await data.forEach(element => {
+      hospitalTestData.push({ name: element[0], totalCount: element[1] })
+    });
+    return hospitalTestData;
+  }
 
-async function ConvertHospitalTestData(data) {
-  var hospitalTestData = [];
-  await data.forEach(element => {
-    hospitalTestData.push({ name: element[0], totalCount: element[1] })
+  async function ConvertStateWiseData(data) {
+    var stateWiseData = [];
+    await data.forEach(element => {
+      if (element[0] != "State") {
+        stateWiseData.push(
+          {
+            state: element[0],
+            confirmed: element[1],
+            active: element[2],
+            recovered: element[3],
+            deceased: element[4]
+          });
+      }
+    });
+    return stateWiseData;
+  }
+
+  app.get('/data', (req, res) => {
+    res.send(data);
   });
-  return hospitalTestData;
-}
 
-async function ConvertStateWiseData(data) {
-  var stateWiseData = [];
-  await data.forEach(element => {
-    if (element[0] != "State") {
-      stateWiseData.push(
-        {
-          state: element[0],
-          confirmed: element[1],
-          active: element[2],
-          recovered: element[3],
-          deceased: element[4]
-        });
-    }
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'build',
+      'index.html'));
   });
-  return stateWiseData;
-}
-
-app.get('/data', (req, res) => {
-  res.send(data);
-});
-
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'build',
-    'index.html'));
-});
 
 
-app.listen(port, () => console.log(`Listening on port ${port}`));
+  app.listen(port, () => console.log(`Listening on port ${port}`));
 
 
