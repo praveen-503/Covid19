@@ -98,22 +98,47 @@ async function ConvertPredectionData(data) {
 }
 
 async function ConvertActualDateWiseData(data) {
-  var actualDateWiseData = [];
+  var dailyData = [];
+  var cummlativeData = []
   await data.forEach(element => {
     if (element[0] != "Date") {
-      actualDateWiseData.push(
-        {
-          date: element[0],
-          confirmedCases: element[1],
-          recovered: element[2],
-          deceased: element[3],
-          cumConfirmedCases: element[4],
-          cumRecovered: element[5],
-          cumDeceased: element[6],
-        });
+      dailyData.push({
+        "name": element[0],
+        "series": [
+          {
+            "name": "Confirmed Cases",
+            "value": element[1]
+          },
+          {
+            "name": "Recovered",
+            "value": element[2]
+          },
+          {
+            "name": "Deceased",
+            "value": element[3]
+          },
+        ]
+      });
+      cummlativeData.push({
+        "name": element[0],
+        "series": [
+          {
+            "name": "Confirmed Cases",
+            "value": element[4]
+          },
+          {
+            "name": "Recovered",
+            "value": element[5]
+          },
+          {
+            "name": "Deceased",
+            "value": element[6]
+          },
+        ]
+      });
     }
   });
-  return actualDateWiseData;
+  return { dailyData: dailyData, cummlativeData: cummlativeData };
 }
 
 async function ConvertHospitalTestData(data) {
