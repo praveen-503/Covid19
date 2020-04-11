@@ -21,13 +21,45 @@ app.use(express.static(path.join(__dirname, 'build')));
 const xlsxFile = require('read-excel-file/node');
 
 
-app.get('/india-latest',async (req,res)=>{
+app.get('/india-latest', async (req, res) => {
   var latestData = await xlsxFile('./src/assets/spreedsheets/India_Latest.xlsx').then((rows) => {
     return rows
   });
 
   res.json(await ConvertLatestData(latestData));
 })
+
+app.get('/india-predict-data', async (req, res) => {
+  var predictionData = await xlsxFile('./src/assets/spreedsheets/India_Prediction.xlsx').then((rows) => {
+    return rows;
+  });
+
+  res.json(await ConvertPredectionData(predictionData));
+})
+
+app.get('/hospitalList', async (req, res) => {
+  var hospitalTestData = await xlsxFile('./src/assets/spreedsheets/India _hospital_testing_data.xlsx').then((rows) => {
+    return rows;
+  });
+  res.json(await ConvertHospitalTestData(hospitalTestData));
+})
+
+app.get('/india-actual-daywise', async (req, res) => {
+  var actualDateWiseData = await xlsxFile('./src/assets/spreedsheets/Inida_Actuals_Daywise.xlsx').then((rows) => {
+    return rows;
+  });
+
+  res.json(await ConvertActualDateWiseData(actualDateWiseData));
+})
+
+app.get('/india-statewise-data', async (req, res) => {
+  var stateWiseData = await xlsxFile('./src/assets/spreedsheets/State_Wise_Actuals.xlsx').then((rows) => {
+    return rows;
+  });
+
+  res.json(await ConvertStateWiseData(stateWiseData));
+})
+
 
 async function ConvertLatestData(data) {
   var latestData = [];
@@ -36,49 +68,6 @@ async function ConvertLatestData(data) {
   });
   return latestData;
 }
-
-app.get('/hospitalList',async (req,res)=>{
-
-})
-
-app.get('/india-data', async (req, res) => {
-  var indiaCovidData = await readIndiaExcelsData();
-  var latestData = await ConvertLatestData(indiaCovidData.latestData);
-  var predictionData = await ConvertPredectionData(indiaCovidData.predictionData);
-  var actualDateWiseData = await ConvertActualDateWiseData(indiaCovidData.actualDateWiseData);
-  var hospitalTestData = await ConvertHospitalTestData(indiaCovidData.hospitalTestData);
-  var stateWiseData = await ConvertStateWiseData(indiaCovidData.stateWiseData);
-  res.json(
-    {
-      latestData: latestData,
-      predictionData: predictionData,
-      actualDateWiseData: actualDateWiseData,
-      hospitalTestData: hospitalTestData,
-      stateWiseData: stateWiseData
-    });
-});
-
-async function readIndiaExcelsData() {
-  const indiaCovidData = {};
-  indiaCovidData.predictionData = await xlsxFile('./src/assets/spreedsheets/India_Prediction.xlsx').then((rows) => {
-    return rows;
-  });
-  indiaCovidData.latestData = await xlsxFile('./src/assets/spreedsheets/India_Latest.xlsx').then((rows) => {
-    return rows;
-  });
-  indiaCovidData.actualDateWiseData = await xlsxFile('./src/assets/spreedsheets/Inida_Actuals_Daywise.xlsx').then((rows) => {
-    return rows;
-  });
-  indiaCovidData.hospitalTestData = await xlsxFile('./src/assets/spreedsheets/India _hospital_testing_data.xlsx').then((rows) => {
-    return rows;
-  });
-  indiaCovidData.stateWiseData = await xlsxFile('./src/assets/spreedsheets/State_Wise_Actuals.xlsx').then((rows) => {
-    return rows;
-  });
-  return indiaCovidData;
-}
-
-
 
 async function ConvertPredectionData(data) {
   var predictionData = [];
