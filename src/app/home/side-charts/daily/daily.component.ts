@@ -40,7 +40,7 @@ export class DailyComponent implements OnInit {
   onSelect(data) {
     console.log(data);
   }
-  view: any[] = [800, 200];
+  view: any[] = [450, 150];
 
   // options for the chart
   showXAxis = true;
@@ -50,7 +50,8 @@ export class DailyComponent implements OnInit {
   showXAxisLabel = true;
   xAxisLabel = 'Dates';
   showYAxisLabel = true;
-  yAxisLabel = 'No.of Cases';
+  showGridLines =  false;
+  yAxisLabel = 'Confirmed Cases';
   timeline = true;
 
   colorScheme = [

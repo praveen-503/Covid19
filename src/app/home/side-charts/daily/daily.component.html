@@ -3,7 +3,6 @@
     <div class="col">
       
       <div class="row" >
-        <h4>Confirmed Cases</h4>
         <ngx-charts-bar-vertical
         [view]="view"
         [scheme]="colorScheme[2]"
@@ -11,9 +10,10 @@
         [gradient]="gradient"
         [xAxis]="showXAxis"
         [yAxis]="showYAxis"
-        [showXAxisLabel]="showXAxisLabel"
+        [showGridLines]="showGridLines"
+        [showXAxisLabel]="!showXAxisLabel"
         [showYAxisLabel]="showYAxisLabel"
-        [xAxisLabel]="xAxisLabel"
+        [xAxisLabel]="!xAxisLabel"
         [yAxisLabel]="yAxisLabel"
         (select)="onSelect($event)">
       </ngx-charts-bar-vertical>
@@ -23,7 +23,6 @@
           <button type="button" class="btn btn-light" (click) = "changeData('cumulative')" >Cumulative</button>
         </div>
       <div class="row"  *ngFor="let item of commonData;let i = index;" >
-      <h4>{{item[0].name}}</h4>
       <ngx-charts-area-chart
         [view]="view"
         [scheme]="colorScheme[i]"
@@ -31,10 +30,11 @@
         [xAxis]="showXAxis"
         [yAxis]="showYAxis"
         [legend]="!showLegend"
-        [showXAxisLabel]="showXAxisLabel"
+        [showXAxisLabel]="!showXAxisLabel"
         [showYAxisLabel]="showYAxisLabel"
-        [xAxisLabel]="xAxisLabel"
-        [yAxisLabel]="yAxisLabel"
+        [showGridLines]="showGridLines"
+        [xAxisLabel]="!xAxisLabel"
+        [yAxisLabel]="item[0].name"
         (select)="onSelect($event)"
         >
         </ngx-charts-area-chart>

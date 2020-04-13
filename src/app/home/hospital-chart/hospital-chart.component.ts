@@ -14,7 +14,7 @@ export class HospitalChartComponent implements OnInit {
   series3Data:any;
   series4Data:any;
   single: any[];
-  public view: any[] = [700, 400];
+  public view: any[] = [500, 300];
   public showXAxis = true;
   public showYAxis = true;
   public gradient = false;
