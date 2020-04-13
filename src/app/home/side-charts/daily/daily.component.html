@@ -1,60 +1,50 @@
 <div style="text-align: center;">
   <div class="row ml-5">
     <div class="col">
-      <div class="row">
-        <h4>
-          Vertical Bar Chart
-        </h4>
-
-      </div>
-      <div class="btn-group" role="group" aria-label="Basic example">
-        <button type="button" class="btn btn-light">Daily</button>
-        <button type="button" class="btn btn-light">Cumulative</button>
-      </div>
-      <div class="row"  *ngFor="let item of meterService.inidaDailyWiseData" >
-
-      <ngx-charts-line-chart
+      
+      <div class="row" >
+        <h4>Confirmed Cases</h4>
+        <ngx-charts-bar-vertical
         [view]="view"
-        [scheme]="colorScheme"
+        [scheme]="colorScheme[2]"
+        [results]="confirmedCases"
+        [gradient]="gradient"
+        [xAxis]="showXAxis"
+        [yAxis]="showYAxis"
+        [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel"
+        [xAxisLabel]="xAxisLabel"
+        [yAxisLabel]="yAxisLabel"
+        (select)="onSelect($event)">
+      </ngx-charts-bar-vertical>
+        </div>
+        <div class="btn-group" role="group" aria-label="Basic example">
+          <button type="button" class="btn btn-light" (click) = "changeData('daily')" >Daily</button>
+          <button type="button" class="btn btn-light" (click) = "changeData('cumulative')" >Cumulative</button>
+        </div>
+      <div class="row"  *ngFor="let item of commonData;let i = index;" >
+      <h4>{{item[0].name}}</h4>
+      <ngx-charts-area-chart
+        [view]="view"
+        [scheme]="colorScheme[i]"
         [results]="item"
         [xAxis]="showXAxis"
         [yAxis]="showYAxis"
-        [legend]="showLegend"
+        [legend]="!showLegend"
         [showXAxisLabel]="showXAxisLabel"
         [showYAxisLabel]="showYAxisLabel"
         [xAxisLabel]="xAxisLabel"
         [yAxisLabel]="yAxisLabel"
         (select)="onSelect($event)"
         >
-        </ngx-charts-line-chart>
+        </ngx-charts-area-chart>
       </div>
-      <div class="btn-group" role="group" aria-label="Basic example">
+      <!-- <div class="btn-group" role="group" aria-label="Basic example">
         <button type="button" class="btn btn-light btn-sm">ALL</button>
         <button type="button" class="btn btn-light btn-sm">1M</button>
         <button type="button" class="btn btn-light btn-sm">14D</button>
-      </div>
-      <div class="row">
-        <h4>
-          Vertical Bar Chart
-        </h4>
-      </div>
-      <div class="row">
-        <ngx-charts-bar-vertical
-          [view]="view"
-          [scheme]="colorScheme"
-          [results]="single"
-          [gradient]="gradient"
-          [xAxis]="showXAxis"
-          [yAxis]="showYAxis"
-          [legend]="showLegend"
-          [showXAxisLabel]="showXAxisLabel"
-          [showYAxisLabel]="showYAxisLabel"
-          [xAxisLabel]="xAxisLabel"
-          [yAxisLabel]="yAxisLabel"
-          (select)="onSelect($event)"
-        >
-        </ngx-charts-bar-vertical>
-      </div>
+      </div> -->
+     
     </div>
      <!--<div class="col">
       <div class="row">

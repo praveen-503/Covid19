@@ -1,7 +1,16 @@
-<div class="cantainer">
-  <button type="button" class="btn btn-primary " *ngFor="let item of meterChartService.latestCasesCount" >{{item.name}} : {{item.totalCount}} </button>
+  <!-- <div class="row">
+    <div class="center">
+      <a class="btn btn-outline-primary"  *ngFor="let item of meterChartService.latestCasesCount">{{item.name}} : {{item.totalCount}} </a>
+      <button type="button" class="btn btn-primary " *ngFor="let item of meterChartService.latestCasesCount" >{{item.name}} : {{item.totalCount}} </button>
+
+    </div>
+  </div> -->
   <!-- <button type="button" class="btn btn-secondary">Secondary</button>
   <button type="button" class="btn btn-success">Success</button>
   <button type="button" class="btn btn-danger">Danger</button> -->
-</div>
 
+  <div class="container" style="margin-top: 5px;margin-left: 220px;">
+    <div class="btn-group mr-3" role="group" aria-label="Basic example" *ngFor="let item of meterChartService.latestCasesCount" >
+        <button type="button" class="btn btn-primary">{{item.name}} : {{item.totalCount}}</button>
+    </div>
+</div>

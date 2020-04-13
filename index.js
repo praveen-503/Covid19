@@ -70,98 +70,84 @@ async function ConvertLatestData(data) {
 }
 
 async function ConvertPredectionData(data) {
-  var series1 = [];
-  var series2 = [];
-  var series3 = [];
-  var series4 = [];
-  var hospitalSeries = [];
+  var p1Series = [];
+  var p2Series = [];
+  var p3Series = [];
+  var p4Series = [];
+  var s1Series = [];
+  var s2Series = [];
+  var s3Series = [];
+  var s4Series = [];
+  var h1Series = [];
+  var h2Series = [];
+  var h3Series = [];
+  var h4Series = [];
   await data.forEach(element => {
     if (element[0] != "Country") {
-
-      series1.push({
-        "name": element[2],
-        "series": [
-          {
-            "name": "P1",
-            "value": element[3]
-          },
-          {
-            "name": "S1",
-            "value": element[7]
-          }
-        ]
+      var date = CovertDateFormat(element[2]);
+      p1Series.push({
+        "name": date,
+        "value": element[3]
       });
-      series2.push({
-        "name": element[2],
-        "series": [
-          {
-            "name": "P2",
-            "value": element[4]
-          },
-          {
-            "name": "S2",
-            "value": element[8]
-          }
-        ]
+      p2Series.push({
+        "name": date,
+        "value": element[4]
       });
-      series3.push({
-        "name": element[2],
-        "series": [
-          {
-            "name": "P2",
-            "value": element[5]
-          },
-          {
-            "name": "S2",
-            "value": element[9]
-          }
-        ]
+      p3Series.push({
+        "name": date,
+        "value": element[5]
       });
-      series4.push({
-        "name": element[2],
-        "series": [
-          {
-            "name": "P2",
-            "value": element[6]
-          },
-          {
-            "name": "S2",
-            "value": element[10]
-          }
-        ]
+      p4Series.push({
+        "name": date,
+        "value": element[6]
       });
-      hospitalSeries.push({
-        "name": element[2],
-        "series": [
-          {
-            "name": "H1",
-            "value": element[11]
-          },
-          {
-            "name": "H2",
-            "value": element[12]
-          },
-          {
-            "name": "H3",
-            "value": element[13]
-          },
-          {
-            "name": "H4",
-            "value": element[14]
-          }
-        ]
+      s1Series.push({
+        "name": date,
+        "value": element[7]
       });
-
+      s2Series.push({
+        "name": date,
+        "value": element[8]
+      });
+      s3Series.push({
+        "name": date,
+        "value": element[9]
+      });
+      s4Series.push({
+        "name": date,
+        "value": element[10]
+      });
+      h1Series.push({
+        "name": date,
+        "value": element[11]
+      });
+      h2Series.push({
+        "name": date,
+        "value": element[12]
+      });
+      h3Series.push({
+        "name": date,
+        "value": element[13]
+      });
+      h4Series.push({
+        "name": date,
+        "value": element[14]
+      });
     }
   });
   return {
-    series1: series1,
-    series2: series2,
-    series3: series3,
-    series4: series4,
-    hospitalSeries: hospitalSeries
+    series1: [{ "name": "P1", "series": p1Series }, { "name": "S1", "series": s1Series }],
+    series2: [{ "name": "P2", "series": p2Series }, { "name": "S2", "series": s2Series }],
+    series3: [{ "name": "P3", "series": p3Series }, { "name": "S3", "series": s3Series }],
+    series4: [{ "name": "P4", "series": p4Series }, { "name": "S4", "series": s4Series }],
+    hospitalSeries: [{ "name": "H1", "series": h1Series }, { "name": "H2", "series": h2Series },
+    { "name": "H3", "series": h3Series }, { "name": "H4", "series": h4Series }]
   }
-
+ 
+}
+function CovertDateFormat(date) {
+var slitDate = date.toString().split(" ");
+return slitDate[2]+"/"+slitDate[1]+"/"+slitDate[3];
 }
 
 async function ConvertActualDateWiseData(data) {
@@ -174,6 +160,7 @@ async function ConvertActualDateWiseData(data) {
   var cumlativeDeceasedCasesSeries = [];
 
   await data.forEach(element => {
+
     if (element[0] != "Date") {
       dailyConfirmedCasesSeries.push({
         "name": element[0],
@@ -203,16 +190,18 @@ async function ConvertActualDateWiseData(data) {
     }
   });
   return {
-    daily : [
+    daily: [
       [{ "name": "Confirmed cases", "series": dailyConfirmedCasesSeries }],
-      [ { "name": "Recovered cases", "series": dailyRecoveredCasesSeries }],
+      [{ "name": "Recovered cases", "series": dailyRecoveredCasesSeries }],
       [{ "name": "Deceased cases", "series": dailyDeceasedCasesSeries }],
     ],
-    cumulative : [
+    cumulative: [
       [{ "name": "Confirmed cases", "series": cumlativeConfirmedCasesSeries }],
-    [{ "name": "Recovered cases", "series": cumlativeRecoveredCasesSeries }],
-    [{ "name": "Deceased cases", "series": cumlativeDeceasedCasesSeries }]
-    ]
+      [{ "name": "Recovered cases", "series": cumlativeRecoveredCasesSeries }],
+      [{ "name": "Deceased cases", "series": cumlativeDeceasedCasesSeries }]
+    ],
+    confirmedCases: dailyConfirmedCasesSeries
+
   }
 }
 async function ConvertHospitalTestData(data) {
@@ -237,7 +226,10 @@ async function ConvertStateWiseData(data) {
         });
     }
   });
-  return stateWiseData;
+  await stateWiseData.sort(function (a, b) {
+    return b.confirmed - a.confirmed;
+  });
+  return stateWiseData.slice(0, 5);
 }
 
 app.get('/data', (req, res) => {

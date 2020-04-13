@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MeterChartService } from 'src/app/shared/meter-chart.service';
 
 @Component({
   selector: 'app-top-states',
@@ -6,10 +7,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./top-states.component.css']
 })
 export class TopStatesComponent implements OnInit {
+  topStates:[];
+  constructor(public meterService:MeterChartService) { }
 
-  constructor() { }
-
-  ngOnInit(): void {
+  ngOnInit() {
+    this.meterService.getTopStates().subscribe(res=>{
+      console.log('Top States',res);
+      this.topStates = res;
+    },
+    err=>{
+      console.log(err);
+    })
   }
 
 }

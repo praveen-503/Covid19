@@ -15,6 +15,7 @@ import { TopStatesComponent } from './home/top-states/top-states.component';
 import { SideChartsComponent } from './home/side-charts/side-charts.component';
 import { IndiaPredictionComponent } from './home/india-prediction/india-prediction.component';
 import { DailyComponent } from './home/side-charts/daily/daily.component';
+import { HospitalChartComponent } from './home/hospital-chart/hospital-chart.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,7 +27,9 @@ import { DailyComponent } from './home/side-charts/daily/daily.component';
     TopStatesComponent,
     SideChartsComponent,
     IndiaPredictionComponent,
-    DailyComponent
+    DailyComponent,
+    HospitalChartComponent
+    
   ],
   imports: [
     BrowserModule,
