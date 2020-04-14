@@ -207,8 +207,6 @@ async function ConvertActualDateWiseData(data) {
       [{ "name": "Recovered cases", "series": cumlativeRecoveredCasesSeries }],
       [{ "name": "Deceased cases", "series": cumlativeDeceasedCasesSeries }]
     ],
-    confirmedCases: dailyConfirmedCasesSeries
-
   }
 }
 async function ConvertHospitalTestData(data) {
