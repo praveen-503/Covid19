@@ -9,17 +9,17 @@
       >
         <button
           type="button"
-          class="btn btn-light"
+          class="btn btn-primary"
           (click)="changeData('daily')"
-          [ngClass]="{'bgcolorData': true}"
+          [ngClass]="{'active': isDaily==true}"
         >
           Daily
         </button>
         <button
           type="button"
-          class="btn btn-light"
+          class="btn btn-primary"
           (click)="changeData('cumulative')"
-          [ngClass]="{'bgcolorData': true}"
+          [ngClass]="{'active': isDaily!=true}"
 
         >
           Cumulative
@@ -38,11 +38,11 @@
         <button type="button" class="btn btn-light btn-sm">14D</button>
       </div> -->
       <ng-template
-      *ngIf="isDaily;then dailyComponent; else cumulativeComponent">
+      *ngIf="isDaily;then cumulativeComponent ; else dailyComponent">
     </ng-template>
 
     <ng-template #dailyComponent>
-      <div class="row ml-5" *ngFor="let item of dailyWiseData; let i = index">
+      <div class="row ml-5" *ngFor="let item of cumulativeData; let i = index">
 
         <ngx-charts-area-chart
         [view]="view"
@@ -63,7 +63,7 @@
     </ng-template>
 
     <ng-template #cumulativeComponent>
-      <div class="row ml-5" *ngFor="let item of cumulativeData; let i = index">
+      <div class="row ml-5" *ngFor="let item of dailyWiseData; let i = index">
         <ngx-charts-bar-vertical
         [view]="view"
         [scheme]="colorScheme[2]"

@@ -1,4 +1,10 @@
-    <ngx-charts-area-chart
+<div class="center">
+  <a class="btn btn-outline-primary" (click)="onChangeCommonData('s1')">Series1</a>
+  <a class="btn btn-outline-primary" (click)="onChangeCommonData('s2')">Series2</a>
+  <a class="btn btn-outline-primary" (click)="onChangeCommonData('s3')">Series3</a>
+  <a class="btn btn-outline-primary" (click)="onChangeCommonData('s4')">Series4</a>
+</div>
+<ngx-charts-area-chart
     (window:resize)="onResize($event)"
     [view]="view"
     [scheme]="colorScheme"
@@ -17,9 +23,6 @@
 
     >
     </ngx-charts-area-chart>
-    <div class="center">
-        <a class="btn btn-outline-primary" (click)="onChangeCommonData('s1')">Series1</a>
-        <a class="btn btn-outline-primary" (click)="onChangeCommonData('s2')">Series2</a>
-        <a class="btn btn-outline-primary" (click)="onChangeCommonData('s3')">Series3</a>
-        <a class="btn btn-outline-primary" (click)="onChangeCommonData('s4')">Series4</a>
-      </div>
+ 
+     
+      

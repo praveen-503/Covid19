@@ -43,7 +43,7 @@ app.get('/india-predict-data', async (req, res) => {
 })
 
 app.get('/hospitalList', async (req, res) => {
-  await request('https://covid19proarch.blob.core.windows.net/datasets/India%20_hospital_testing_data.xlsx',
+  await request('https://covid19proarch.blob.core.windows.net/datasets/India%20-%20hospital%2C%20testing%20data.xlsx',
     { encoding: null }, async function (error, response, body) {
       var workbook = await XLSX.read(body);
       const wsname = workbook.SheetNames[0];
