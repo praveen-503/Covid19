@@ -168,7 +168,7 @@ async function ConvertActualDateWiseData(data) {
 
   await data.forEach(element => {
 
-    if (element[0] != "Date") {
+    if (element[0] != "Date"  && element[0] != null) {
       dailyConfirmedCasesSeries.push({
         "name": element[0],
         "value": element[1]
@@ -222,7 +222,7 @@ async function ConvertHospitalTestData(data) {
 async function ConvertStateWiseData(data) {
   var stateWiseData = [];
   await data.forEach(element => {
-    if (element[0] != "State") {
+    if (element[0] != "State" && element[0] != null) {
       stateWiseData.push(
         {
           state: element[0],
