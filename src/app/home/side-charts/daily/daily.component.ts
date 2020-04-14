@@ -20,9 +20,6 @@ export class DailyComponent implements OnInit {
       this.dailyWiseData = res.daily;
       this.cumulativeData = res.cumulative;
       this.commonData = this.dailyWiseData;
-      this.confirmedCases = res.confirmedCases;
-
-
     },
       err => {
         console.log(err);
