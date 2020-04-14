@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
+var request = require('request');
+const XLSX = require('xlsx');
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -12,54 +14,63 @@ app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
-var data = [];
 
 
 // Server any static files
 app.use(express.static(path.join(__dirname, 'build')));
 
-const xlsxFile = require('read-excel-file/node');
 
 
 app.get('/india-latest', async (req, res) => {
-  var latestData = await xlsxFile('./src/assets/spreedsheets/India_Latest.xlsx').then((rows) => {
-    return rows
-  });
+  await request('https://covid19proarch.blob.core.windows.net/datasets/India_Latest.xlsx',
+    { encoding: null }, async function (error, response, body) {
+      var workbook = await XLSX.read(body);
+      const wsname = workbook.SheetNames[0];
+      const ws = workbook.Sheets[wsname];
+      res.json(await ConvertLatestData(XLSX.utils.sheet_to_json(ws, { header: 1 })));
+    });
 
-  res.json(await ConvertLatestData(latestData));
 })
 
 app.get('/india-predict-data', async (req, res) => {
-  var predictionData = await xlsxFile('./src/assets/spreedsheets/India_Prediction.xlsx').then((rows) => {
-    return rows;
-  });
-
-  res.json(await ConvertPredectionData(predictionData));
+  await request('https://covid19proarch.blob.core.windows.net/datasets/India_Prediction.xlsx',
+    { encoding: null }, async function (error, response, body) {
+      var workbook = await XLSX.read(body);
+      const wsname = workbook.SheetNames[0];
+      const ws = workbook.Sheets[wsname];
+      res.json(await ConvertPredectionData(XLSX.utils.sheet_to_json(ws, { header: 1 })));
+    });
 })
 
 app.get('/hospitalList', async (req, res) => {
-  var hospitalTestData = await xlsxFile('./src/assets/spreedsheets/India _hospital_testing_data.xlsx').then((rows) => {
-    return rows;
-  });
-  res.json(await ConvertHospitalTestData(hospitalTestData));
+  await request('https://covid19proarch.blob.core.windows.net/datasets/India%20_hospital_testing_data.xlsx',
+    { encoding: null }, async function (error, response, body) {
+      var workbook = await XLSX.read(body);
+      const wsname = workbook.SheetNames[0];
+      const ws = workbook.Sheets[wsname];
+      res.json(await ConvertHospitalTestData(XLSX.utils.sheet_to_json(ws, { header: 1 })));
+    });
 })
 
 app.get('/india-actual-daywise', async (req, res) => {
-  var actualDateWiseData = await xlsxFile('./src/assets/spreedsheets/Inida_Actuals_Daywise.xlsx').then((rows) => {
-    return rows;
-  });
-
-  res.json(await ConvertActualDateWiseData(actualDateWiseData));
+  await request('https://covid19proarch.blob.core.windows.net/datasets/Inida_Actuals_Daywise.xlsx',
+    { encoding: null }, async function (error, response, body) {
+      var workbook = await XLSX.read(body);
+      const wsname = workbook.SheetNames[0];
+      const ws = workbook.Sheets[wsname];
+      res.json(await ConvertActualDateWiseData(XLSX.utils.sheet_to_json(ws, { header: 1 })));
+    });
 })
 
 app.get('/india-statewise-data', async (req, res) => {
-  var stateWiseData = await xlsxFile('./src/assets/spreedsheets/State_Wise_Actuals.xlsx').then((rows) => {
-    return rows;
-  });
-
-  res.json(await ConvertStateWiseData(stateWiseData));
+  await request('https://covid19proarch.blob.core.windows.net/datasets/State_Wise_Actuals.xlsx',
+    { encoding: null }, async function (error, response, body) {
+      var workbook = await XLSX.read(body);
+      const wsname = workbook.SheetNames[0];
+      const ws = workbook.Sheets[wsname];
+      res.json(await ConvertStateWiseData(XLSX.utils.sheet_to_json(ws, { header: 1 })));
+    });
 })
-
 
 async function ConvertLatestData(data) {
   var latestData = [];
@@ -84,7 +95,7 @@ async function ConvertPredectionData(data) {
   var h4Series = [];
   await data.forEach(element => {
     if (element[0] != "Country") {
-      var date = CovertDateFormat(element[2]);
+      var date = new Date(1899, 12, element[2] - 1).toLocaleDateString();
       p1Series.push({
         "name": date,
         "value": element[3]
@@ -143,11 +154,7 @@ async function ConvertPredectionData(data) {
     hospitalSeries: [{ "name": "H1", "series": h1Series }, { "name": "H2", "series": h2Series },
     { "name": "H3", "series": h3Series }, { "name": "H4", "series": h4Series }]
   }
- 
-}
-function CovertDateFormat(date) {
-var slitDate = date.toString().split(" ");
-return slitDate[2]+"/"+slitDate[1]+"/"+slitDate[3];
+
 }
 
 async function ConvertActualDateWiseData(data) {
@@ -231,10 +238,6 @@ async function ConvertStateWiseData(data) {
   });
   return stateWiseData.slice(0, 5);
 }
-
-app.get('/data', (req, res) => {
-  res.send(data);
-});
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build',
