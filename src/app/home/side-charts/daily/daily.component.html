@@ -1,29 +1,50 @@
-<div style="text-align: center;">
-  <div class="row ml-5">
-    <div class="col">
-      
-      <!-- <div class="row" >
-        <ngx-charts-bar-vertical
-        [view]="view"
-        [scheme]="colorScheme[2]"
-        [results]="confirmedCases"
-        [gradient]="gradient"
-        [xAxis]="showXAxis"
-        [yAxis]="showYAxis"
-        [showGridLines]="showGridLines"
-        [showXAxisLabel]="!showXAxisLabel"
-        [showYAxisLabel]="showYAxisLabel"
-        [xAxisLabel]="!xAxisLabel"
-        [yAxisLabel]="yAxisLabel"
-        (select)="onSelect($event)">
-      </ngx-charts-bar-vertical>
-        </div> -->
-        <div class="btn-group" role="group" aria-label="Basic example">
-          <button type="button" class="btn btn-light" (click) = "changeData('daily')" >Daily</button>
-          <button type="button" class="btn btn-light" (click) = "changeData('cumulative')" >Cumulative</button>
-        </div>
-      <div class="row"  *ngFor="let item of commonData;let i = index;" >
-      <ngx-charts-area-chart
+<div class="container center">
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+      <div
+        class="btn-group text-center"
+        role="group"
+        aria-label="Basic example"
+      >
+        <button
+          type="button"
+          class="btn btn-light"
+          (click)="changeData('daily')"
+          [ngClass]="{'bgcolorData': true}"
+        >
+          Daily
+        </button>
+        <button
+          type="button"
+          class="btn btn-light"
+          (click)="changeData('cumulative')"
+          [ngClass]="{'bgcolorData': true}"
+
+        >
+          Cumulative
+        </button>
+      </div>
+    </div>
+    <div class="col-md-3"></div>
+  </div>
+</div>
+<!--  (window:resize)="onResize($event)" -->
+
+
+<!-- <div class="btn-group" role="group" aria-label="Basic example">
+        <button type="button" class="btn btn-light btn-sm">ALL</button>
+        <button type="button" class="btn btn-light btn-sm">1M</button>
+        <button type="button" class="btn btn-light btn-sm">14D</button>
+      </div> -->
+      <ng-template
+      *ngIf="isDaily;then dailyComponent; else cumulativeComponent">
+    </ng-template>
+
+    <ng-template #dailyComponent>
+      <div class="row ml-5" *ngFor="let item of dailyWiseData; let i = index">
+
+        <ngx-charts-area-chart
         [view]="view"
         [scheme]="colorScheme[i]"
         [results]="item"
@@ -36,61 +57,27 @@
         [xAxisLabel]="!xAxisLabel"
         [yAxisLabel]="item[0].name"
         (select)="onSelect($event)"
-        >
-        </ngx-charts-area-chart>
-      </div>
-      <!-- <div class="btn-group" role="group" aria-label="Basic example">
-        <button type="button" class="btn btn-light btn-sm">ALL</button>
-        <button type="button" class="btn btn-light btn-sm">1M</button>
-        <button type="button" class="btn btn-light btn-sm">14D</button>
-      </div> -->
-     
+      >
+      </ngx-charts-area-chart>
     </div>
-     <!--<div class="col">
-      <div class="row">
-        <h4>
-          Vertical Bar Chart Normalized
-        </h4>
+    </ng-template>
+
+    <ng-template #cumulativeComponent>
+      <div class="row ml-5" *ngFor="let item of cumulativeData; let i = index">
+        <ngx-charts-bar-vertical
+        [view]="view"
+        [scheme]="colorScheme[2]"
+        [results]="item[0].series"
+        [gradient]="gradient"
+        [xAxis]="showXAxis"
+        [yAxis]="showYAxis"
+        [showGridLines]="showGridLines"
+        [showXAxisLabel]="!showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel"
+        [xAxisLabel]="!xAxisLabel"
+        [yAxisLabel]="yAxisLabel"
+        (select)="onSelect($event)"
+      >
+      </ngx-charts-bar-vertical>
       </div>
-      <div class="row">
-        <ngx-charts-line-vertical-normalized
-          [view]="view"
-          [scheme]="colorScheme"
-          [results]="multi"
-          [gradient]="gradient"
-          [xAxis]="showXAxis"
-          [yAxis]="showYAxis"
-          [legend]="showLegend"
-          [showXAxisLabel]="showXAxisLabel"
-          [showYAxisLabel]="showYAxisLabel"
-          [xAxisLabel]="xAxisLabel"
-          [yAxisLabel]="yAxisLabel"
-          (select)="onSelect($event)"
-        >
-        </ngx-charts-line-vertical-normalized>
-      </div>
-    </div>
-  </div>
-  <div class="row ml-5">
-    <h4>
-      Stacked Vertical Bar Chart
-    </h4>
-  </div>
-  <div class="form-group row ml-5">
-    <ngx-charts-line-vertical-stacked
-      [view]="view"
-      [scheme]="colorScheme"
-      [results]="multi"
-      [gradient]="gradient"
-      [xAxis]="showXAxis"
-      [yAxis]="showYAxis"
-      [legend]="showLegend"
-      [showXAxisLabel]="showXAxisLabel"
-      [showYAxisLabel]="showYAxisLabel"
-      [xAxisLabel]="xAxisLabel"
-      [yAxisLabel]="yAxisLabel"
-      (select)="onSelect($event)"
-    >
-    </ngx-charts-line-vertical-stacked>
-  </div> -->
-</div>
+    </ng-template>

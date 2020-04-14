@@ -11,33 +11,36 @@ export class DailyComponent implements OnInit {
   dailyWiseData: any;
   cumulativeData: any;
   confirmedCases:any;
-  commonData;
+  isDaily : boolean= true;
   constructor(public meterService: MeterChartService) {
+  // this.view = [innerWidth / 1.3, 150];
   }
+  // onResize(event) {
+  //   this.view = [event.target.innerWidth / 1.35, 150];
+  // }
   ngOnInit() {
     this.meterService.getIndiaDayWise().subscribe(res => {
-      console.log(res);
       this.dailyWiseData = res.daily;
       this.cumulativeData = res.cumulative;
-      this.commonData = this.dailyWiseData;
     },
       err => {
         console.log(err);
       });
   }
   changeData(name) {
+    console.log(name,'nae')
     if (name == 'daily') {
-      this.commonData = this.dailyWiseData;
+      this.isDaily = true;
     }
     else{
-      this.commonData = this.cumulativeData;
+      this.isDaily = false;
     }
 
   }
   onSelect(data) {
     console.log(data);
   }
-  view: any[] = [450, 150];
+  view: any[] = [370, 200];
 
   // options for the chart
   showXAxis = true;
