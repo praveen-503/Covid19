@@ -22,6 +22,7 @@ export class DailyComponent implements OnInit {
     this.meterService.getIndiaDayWise().subscribe(res => {
       this.dailyWiseData = res.daily;
       this.cumulativeData = res.cumulative;
+      console.log('dily Data',this.dailyWiseData)
     },
       err => {
         console.log(err);

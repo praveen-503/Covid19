@@ -1,28 +1,59 @@
-<div class="center">
-  <a class="btn btn-outline-primary" (click)="onChangeCommonData('s1')">Series1</a>
-  <a class="btn btn-outline-primary" (click)="onChangeCommonData('s2')">Series2</a>
-  <a class="btn btn-outline-primary" (click)="onChangeCommonData('s3')">Series3</a>
-  <a class="btn btn-outline-primary" (click)="onChangeCommonData('s4')">Series4</a>
-</div>
-<ngx-charts-area-chart
-    (window:resize)="onResize($event)"
-    [view]="view"
-    [scheme]="colorScheme"
-    [results]="commonSeriesData"
-    [gradient]="gradient"
-    [showGridLines]="showGridLines"
-    [xAxis]="showXAxis"
-    [yAxis]="showYAxis"
-    [legend]="!showLegend"
-    [showXAxisLabel]="showXAxisLabel"
-    [showYAxisLabel]="showYAxisLabel"
-    [xAxisLabel]="xAxisLabel"
-    [yAxisLabel]="yAxisLabel"
-    [trimXAxisTicks]="trimXAxisTicks"
-    [maxXAxisTickLength] = "maxXAxisTickLength"
+<div class="container">
+  <div class="row center">
+      <a class="btn btn-outline-primary"   (click)="onChangeCommonData('s1')" [ngClass]="{'active': activate== 's1'}"
+        >Series1</a
+      >
+      <a class="btn btn-outline-primary" (click)="onChangeCommonData('s2')"  [ngClass]="{'active': activate== 's2'}"
+        >Series2</a
+      >
+      <a class="btn btn-outline-primary" (click)="onChangeCommonData('s3')"  [ngClass]="{'active': activate== 's3'}"
+        >Series3</a
+      >
+      <a class="btn btn-outline-primary" (click)="onChangeCommonData('s4')"  [ngClass]="{'active': activate== 's4'}"
+        >Series4</a
+      >
+  </div>
+  <div class="row">
+    <div class="col-md-12">
 
-    >
-    </ngx-charts-area-chart>
- 
-     
-      
+      <ngx-charts-area-chart
+        (window:resize)="onResize($event)"
+        [view]="view"
+        [scheme]="colorScheme"
+        [results]="commonSeriesData"
+        [gradient]="gradient"
+        [showGridLines]="showGridLines"
+        [xAxis]="showXAxis"
+        [yAxis]="showYAxis"
+        [legend]="!showLegend"
+        [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel"
+        [xAxisLabel]="xAxisLabel"
+        [yAxisLabel]="yAxisLabel"
+        [trimXAxisTicks]="trimXAxisTicks"
+        [maxXAxisTickLength]="maxXAxisTickLength"
+      >
+      </ngx-charts-area-chart>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <ngx-charts-area-chart
+        (window:resize)="onResize($event)"
+        [view]="view"
+        [scheme]="colorScheme"
+        [results]="hospitalSeriesComonData"
+        [gradient]="gradient"
+        [xAxis]="showXAxis"
+        [yAxis]="showYAxis"
+        [legend]="!showLegend"
+        [showGridLines]="showGridLines"
+        [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel"
+        [xAxisLabel]="xAxisLabel"
+        [yAxisLabel]="yAxisLabel"
+      >
+      </ngx-charts-area-chart>
+    </div>
+  </div>
+</div>

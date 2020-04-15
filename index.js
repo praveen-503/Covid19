@@ -237,9 +237,9 @@ async function ConvertStateWiseData(data) {
   return stateWiseData.slice(0, 5);
 }
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'build',
-    'index.html'));
+app.get('/', (req, res) => {
+  res.writeHead(200, {"Content-Type": "text/plain"});
+  res.end("Hello World! Praveen Chandu Working on Covid");
 });
 
 
